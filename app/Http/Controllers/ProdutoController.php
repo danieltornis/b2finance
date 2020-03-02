@@ -70,6 +70,12 @@ class ProdutoController extends Controller
         $ativo_combo["A"] = 'Ativo';
         $ativo_combo["I"] = 'Inativo';
 
+        $teste_combo["S"] = 'SIM';
+        $teste_combo["N"] = 'NÃO';
+
+        $ams_combo["S"] = 'SIM';
+        $ams_combo["N"] = 'NÃO';
+
             $rel = DB::connection('mysql')->Table('produto as p')->select('*')
                 ->join('tbl_clt as c','c.clt_id','=','PROD_CLIENTE')
                 ->join('tbl_filial as f','f.filial_cod','=','c.clt_filial')
@@ -105,6 +111,8 @@ class ProdutoController extends Controller
             'filial_combo' => $filial_combo,
             'produto_combo' => $produto_combo,
             'ativo_combo' => $ativo_combo,
+            'teste_combo' => $teste_combo,
+            'ams_combo' => $ams_combo,
             'filial' => $filial,
             'cliente' => $cliente,
             'produto' => $produto,
@@ -133,10 +141,18 @@ class ProdutoController extends Controller
         $ativo_combo["A"] = 'Ativo';
         $ativo_combo["I"] = 'Inativo';
 
+        $teste_combo["S"] = 'SIM';
+        $teste_combo["N"] = 'NÃO';
+
+        $ams_combo["S"] = 'SIM';
+        $ams_combo["N"] = 'NÃO';
+
         return view('produto.liberar',[
             'filial_combo' => $filial_combo,
             'produto_combo' => $produto_combo,
-            'ativo_combo' => $ativo_combo
+            'ativo_combo' => $ativo_combo,
+            'teste_combo' => $teste_combo,
+            'ams_combo' => $ams_combo
         ]);
     }
 
@@ -175,6 +191,11 @@ class ProdutoController extends Controller
             if (Input::get('data_corte') != null) {
                 $produtoModel->PROD_DT_CORTE = date('Y-m-d', strtotime(Carbon::createFromFormat('d/m/Y', Input::get('data_corte'))));
             }
+            $produtoModel->PROD_TESTE = Input::get('teste');
+            if (Input::get('data_corte_teste') != null) {
+                $produtoModel->PROD_DT_CORTE_TESTE = date('Y-m-d', strtotime(Carbon::createFromFormat('d/m/Y', Input::get('data_corte_teste'))));
+            }
+            $produtoModel->PROD_AMS = Input::get('ams');
             $produtoModel->save();
 
             Flash::success('Liberação de Produto realizada com sucesso!');
@@ -206,11 +227,23 @@ class ProdutoController extends Controller
         $ativo_combo["A"] = 'Ativo';
         $ativo_combo["I"] = 'Inativo';
 
+        $teste_combo["S"] = 'SIM';
+        $teste_combo["N"] = 'NÃO';
+
+        $ams_combo["S"] = 'SIM';
+        $ams_combo["N"] = 'NÃO';
+
         $filial = Cliente::find($produto->PROD_CLIENTE)->clt_filial;
         if($produto->PROD_DT_CORTE != null) {
             $data_corte = date('d/m/Y', strtotime(Carbon::createFromFormat('Y-m-d', $produto->PROD_DT_CORTE)));
         } else {
             $data_corte = '';
+        }
+
+        if($produto->PROD_DT_CORTE_TESTE != null) {
+            $data_corte_teste = date('d/m/Y', strtotime(Carbon::createFromFormat('Y-m-d', $produto->PROD_DT_CORTE_TESTE)));
+        } else {
+            $data_corte_teste = '';
         }
 
         return view('produto.editar' , [
@@ -219,7 +252,10 @@ class ProdutoController extends Controller
             'data_corte' => $data_corte,
             'filial_combo' => $filial_combo,
             'produto_combo' => $produto_combo,
-            'ativo_combo' => $ativo_combo
+            'ativo_combo' => $ativo_combo,
+            'teste_combo' => $teste_combo,
+            'ams_combo' => $ams_combo,
+            'data_corte_teste' => $data_corte_teste
         ]);
     }
 
@@ -260,6 +296,13 @@ class ProdutoController extends Controller
             } else {
                 $produtoModel->PROD_DT_CORTE = null;
             }
+            $produtoModel->PROD_TESTE = Input::get('teste');
+            if (Input::get('data_corte_teste') != '') {
+                $produtoModel->PROD_DT_CORTE_TESTE = date('Y-m-d', strtotime(Carbon::createFromFormat('d/m/Y', Input::get('data_corte_teste'))));
+            } else {
+                $produtoModel->PROD_DT_CORTE_TESTE = null;
+            }
+            $produtoModel->PROD_AMS = Input::get('ams');
             $produtoModel->save();
 
             Flash::success('Liberação de produto alterada com sucesso!');

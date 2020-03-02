@@ -19,6 +19,7 @@ Route::get('/logout', ['as' => 'logout', 'uses' => 'LoginController@logout']);
 
 //Webservice
 Route::get('/wsproduto/{cnpj}/{produto}', ['as' => 'produto.ws', 'uses' => 'WSProdutoJsonController@listar']);
+Route::get('/wslink/{produto}/{codigo}/{versao}', ['as' => 'link.ws', 'uses' => 'WSLinkJsonController@listar']);
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/',         ['as' => 'index',    'uses' => 'IndexController@index']);
@@ -57,6 +58,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/relCO-ajax-cliente', ['as' => 'relCO.ajax.buscarCliente', 'uses' => 'RelCOController@buscarAjaxCliente']);
     Route::post('/relCO-ajax-projeto', ['as' => 'relCO.ajax.buscarProjeto', 'uses' => 'RelCOController@buscarAjaxProjeto']);
 
+    //Relatório Geral
+    Route::match(['get','post'],'/relGeral', ['as' => 'relGeral', 'uses' => 'RelGeralController@index']);
+
     //Liberação de Produto
     Route::match(['get','post'],'/produto', ['as' => 'produto', 'uses' => 'ProdutoController@index']);
     Route::post('/produto-ajax-cliente', ['as' => 'produto.ajax.buscarCliente', 'uses' => 'ProdutoController@buscarAjaxCliente']);
@@ -65,6 +69,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/produto/{id}/editar', ['as' => 'produto.editar', 'uses' => 'ProdutoController@edit']);
     Route::put('/produto/{id}', ['as' => 'produto.atualizar', 'uses' => 'ProdutoController@update']);
     Route::delete('/produto/{id}', ['as' => 'produto.excluir', 'uses' => 'ProdutoController@destroy']);
+
+    //Cadastro de Link
+    Route::match(['get','post'],'/link', ['as' => 'link', 'uses' => 'LinkController@index']);
+    Route::get('/link/cadastrar', ['as' => 'link.cadastrar', 'uses' => 'LinkController@create']);
+    Route::post('/link_gravar', ['as' => 'link.gravar', 'uses' => 'LinkController@store']);
+    Route::get('/link/{id}/editar', ['as' => 'link.editar', 'uses' => 'LinkController@edit']);
+    Route::put('/link/{id}', ['as' => 'link.atualizar', 'uses' => 'LinkController@update']);
+    Route::delete('/link/{id}', ['as' => 'link.excluir', 'uses' => 'LinkController@destroy']);
 
     //Relatório de Intercompany
     Route::match(['get','post'],'/relIntercompany', ['as' => 'relIntercompany', 'uses' => 'RelIntercompanyController@index']);

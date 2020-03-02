@@ -88,6 +88,10 @@
                                     @can('produto_visualizar')
                                     <li><a href="{{ route('produto') }}">Liberar Produto</a></li>
                                     @endcan
+
+                                    @can('link_visualizar')
+                                    <li><a href="{{ route('link') }}">Link</a></li>
+                                    @endcan
                                 </ul>
                             </li>
 
@@ -103,6 +107,10 @@
 
                                     @can('rel_intercompany')
                                     <li><a href="{{ route("relIntercompany")  }}">Intercompany</a></li>
+                                    @endcan
+
+                                    @can('rel_Geral')
+                                    <li><a href="{{ route("relGeral")  }}">Geral</a></li>
                                     @endcan
                                 </ul>
                             </li>

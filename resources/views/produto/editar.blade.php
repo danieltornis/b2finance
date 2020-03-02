@@ -79,6 +79,27 @@
                                 </div>
                             </div>
 
+                            <div class="form-group">
+                                {!! Form::label('teste', 'Versão Teste?', array('class' => 'control-label col-md-2 col-sm-2 col-xs-12')) !!}
+                                <div class="col-md-2 col-sm-2 col-xs-12">
+                                    {!! Form::select('teste', $teste_combo, $produto->PROD_TESTE, ['class' => 'form-control select2_single','placeholder' => 'Selecione']) !!}
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                {!! Form::label('data_corte_teste', 'Data de Expiração Teste', array('class' => 'control-label col-md-2 col-sm-2 col-xs-12')) !!}
+                                <div class="col-md-2 col-sm-2 col-xs-12">
+                                    {!! Form::text('data_corte_teste', $data_corte_teste, array('class' => 'form-control', 'id' => 'data_corte_teste', 'data-date-format' => 'dd/mm/yyyy', 'data-date-viewmode' => 'years')) !!}
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                {!! Form::label('ams', 'Cliente usa AMS?', array('class' => 'control-label col-md-2 col-sm-2 col-xs-12')) !!}
+                                <div class="col-md-2 col-sm-2 col-xs-12">
+                                    {!! Form::select('ams', $ams_combo, $produto->PROD_AMS, ['class' => 'form-control select2_single','placeholder' => 'Selecione']) !!}
+                                </div>
+                            </div>
+
                             <div class="ln_solid"></div>
 
                             <div class="form-group">
@@ -112,7 +133,8 @@
                 allowClear: false
             });
 
-            $("#data_corte").datepicker(); // Sample
+            $("#data_corte").datepicker();
+            $("#data_corte_teste").datepicker();
 
             $('select[name=filial]').on('change', function(){
                 var filial_id = this.value;
